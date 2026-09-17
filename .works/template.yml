@@ -1,0 +1,29 @@
+# The App Blueprint repository's own metadata (never applied to a Work, never copied into a user's
+# repositories — it is read only by the catalog/resolver).
+#
+# This repository is the METADATA-ONLY seed of the App Blueprint for Cal.diy. The listing in
+# `ever-works/templates` records this Blueprint with `shape: code-bearing` and `appSource.mode: embedded`
+# — the shape a *published* Cal.diy Blueprint takes, where the template repository is a public fork of
+# `calcom/cal.diy` and provisioning forks exactly one repository.
+#
+# THIS repository is not that fork: it is private and carries metadata only, so it declares the shape it
+# actually is. `code-bearing` here would fail the resolver's shape check (T4 requires `isFork` with the
+# recorded fork-network root), which is worse than a truthful `metadata-only`.
+#
+# Field meanings and the shape rules are the resolution specification's §2.1 (T1-T8).
+
+schemaVersion: 1
+kind: app
+
+shape: metadata-only
+
+source:
+    repo: calcom/cal.diy # owner/name of the upstream project; never this repository (T5)
+    defaultBranch: main
+    aliases: [calcom/cal.com] # a former name the same project is still addressed by
+    refs: { branches: [main] } # tag v6.2.0 and older are a different licence and a different code base
+
+# Where the App spec lives in this repository. The specification's default is `.works/works.yml`; this
+# repository keeps it at the root as `app-spec.yml` so the templates listing can validate every spec with
+# one path convention.
+specPath: app-spec.yml
