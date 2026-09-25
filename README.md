@@ -1,11 +1,11 @@
-# App Blueprint draft — Cal.diy (community build)
+# App Blueprint draft — Cal (community build)
 
 **Status:** `Draft` — seed content for the Blueprint repository `ever-works/cal-template` (topic
 `ever-works-app-blueprint`). **Owner:** [APW-13](../../spec.md). **Shape:** [CONTRACTS.md §1](../../../CONTRACTS.md).
 **Unverified** in the sense of [APW-13 spec §4.5](../../spec.md): nothing here has run on a cluster.
 
 This Blueprint tells Ever Works how to build and run a fork of `calcom/cal.diy` as an App Work. It contains
-**no upstream source**: only [`.works/works.yml`](./.works/works.yml) and this README.
+**no upstream source**: only its metadata in [`.works/`](./.works/) and this README.
 
 ## Licence and edition
 
@@ -29,19 +29,20 @@ Two consequences worth stating plainly:
 
 ## What this repository is
 
-The **Ever Works App Blueprint for Cal.diy (community build)** — the App spec the platform applies when it
-builds and runs a fork of `calcom/cal.diy` as an App Work.
+The **Ever Works App Blueprint "Cal (community build)"** — the App spec the platform applies when it builds
+and runs a fork of the upstream project `calcom/cal.diy` (Cal.diy) as an App Work.
 
 | Path | What it is |
 | --- | --- |
-| [`app-spec.yml`](./app-spec.yml) | the App spec itself — the file the platform applies |
-| [`.works/works.yml`](./.works/works.yml) | the same App spec, byte for byte, at the path the platform's Blueprint resolver reads (FR-43 / CONTRACTS §8); change it together with `app-spec.yml` |
+| [`.works/works.yml`](./.works/works.yml) | the App spec — the only file the platform's Blueprint resolver reads and applies (FR-43 / CONTRACTS §8) |
 | [`.works/template.yml`](./.works/template.yml) | this repository's shape and app source, read by the catalog/resolver |
 
 It is **metadata-only**: the application's source is not in this repository, and the file layout below is
-the specification's, not the upstream project's. The listing in `ever-works/templates` records this
-Blueprint with the shape a *published* Cal.diy Blueprint takes (`code-bearing`, a public fork of the
-upstream); this repository is the metadata-only seed, so it declares the shape it actually is.
+the specification's, not the upstream project's. Creating an App Work forks `calcom/cal.diy` (that fork is the
+Work's repository) and records this repository as provenance. Re-creating this repository as a public fork of
+the upstream — the `code-bearing` shape, one fork at provisioning — remains a future option; it would change
+`.works/template.yml` and the row in the [`ever-works/templates`](https://github.com/ever-works/templates)
+listing together.
 
 **Not released, not verified.** Nothing here has run on a cluster, and `blueprint.sha` is a placeholder
 until the release workflow stamps it. Links in this document that point outside the repository were written
@@ -51,7 +52,7 @@ in the platform specification's repository and do not resolve from here.
 
 | Concern                | Decision                                                                                                                      |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Name and marks         | Displayed as **Cal.diy (community build)** with the trademark notice; logo and licence files are read-only to agents.         |
+| Name and marks         | Displayed as **Cal (community build)** with the trademark notice; logo and licence files are read-only to agents.             |
 | Licence                | MIT (green). Re-evaluated on every Upstream sync by the licence gate.                                                         |
 | Build                  | The upstream Dockerfile, target `runner`, 6 GB Node heap, 4 CPU / 12 GiB / 60 min, a throwaway Postgres 16 during the build.  |
 | Secrets at build time  | None. The Dockerfile's build-only placeholders satisfy the framework; real values exist only at run time.                     |
@@ -101,12 +102,12 @@ Public references: <https://github.com/calcom/cal.diy> · <https://github.com/ca
 
 ## Refreshing the pin
 
-The pin lives in the Apps catalog entry's ref range (APW-03) and in the comment at the top of `works.yml`.
+The pin lives in the Apps catalog entry's ref range (APW-03) and in the comment at the top of `.works/works.yml`.
 
 1. The weekly **upstream-sync canary** (APW-13 spec §4.5) builds and smoke-tests the upstream head. Wait for it to be
    green three runs in a row at the candidate commit.
 2. Re-read every row of the facts table at the candidate commit. Any change to the Dockerfile, the start script,
-   the setup route, a cron route or `.env.example` means editing `works.yml` in the same pull request.
+   the setup route, a cron route or `.env.example` means editing `.works/works.yml` in the same pull request.
 3. Re-check the licence. **Tag `v6.2.0` and older are a different licence and a different code base — never pin
    to them.**
 4. Open one pull request that bumps the comment, the catalog ref range and `blueprint.version`. A person merges it.

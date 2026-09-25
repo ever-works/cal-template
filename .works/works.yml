@@ -14,7 +14,7 @@
 
 version: 2
 kind: app
-name: Cal.diy (community build)
+name: Cal (community build)
 
 spec:
   # Written by App Work creation (APW-01). The values below are the Blueprint's defaults; creation replaces
@@ -37,7 +37,7 @@ spec:
     notice: 'Cal.diy® is a trademark of Cal.com, Inc. This community build is not affiliated with or endorsed by Cal.com, Inc.'
 
   display:
-    name: 'Cal.diy (community build)'
+    name: 'Cal (community build)'
     # Read-only to agents (D13). A person may still replace or remove these files by hand.
     protectedPaths:
       - LICENSE
@@ -143,7 +143,7 @@ spec:
     - { name: EMAIL_SERVER_USER, secret: true, from: deps.smtp.user }
     - { name: EMAIL_SERVER_PASSWORD, secret: true, from: deps.smtp.password }
     - { name: EMAIL_FROM, from: deps.smtp.from }
-    - { name: EMAIL_FROM_NAME, value: 'Cal.diy (community build)' }
+    - { name: EMAIL_FROM_NAME, value: 'Cal (community build)' } # the display name above
 
     # ── Fixed values ──────────────────────────────────────────────────────────────────────────────────────
     # verified: three separate telemetry sources. `CALCOM_TELEMETRY_DISABLED` (build arg at L9 and run-time
@@ -257,7 +257,7 @@ spec:
   # why the `cron-refuses-anonymous` smoke below stays on `/api/tasks/cron`.
   # None of these is eligible for managed hosting as written: `ever-works-apps` refuses a schedule that fires
   # more often than every 5 minutes (`cron_too_frequent`, APW-06 plan §4.9), and `tasker` and `webhook-triggers`
-  # fire every minute. Decision: Cal.diy's managed tier needs a ≥ 5-minute task queue (or a tier exception) before
+  # fire every minute. Decision: the managed tier needs a ≥ 5-minute task queue (or a tier exception) before
   # this Blueprint can be hosted there; on a Your cluster target it runs exactly as written (APW-13 plan §7.2).
   cron:
     - {
@@ -349,7 +349,7 @@ spec:
   # (`upstream_sync_requires_upstream`) an error and aborts apply, so apply must drop `upstreamSync` — and
   # `upstreamPullRequests.enabled` — for that relation. For `fork` and `private-copy` it stays, and it is what the
   # weekly upstream-sync canary (APW-13 spec §4.5) runs on. APW-13 plan §6 and T27/T28 record the relation each
-  # golden path uses (ACCEPTANCE.md E2E-14 accepts Link for Cal.diy).
+  # golden path uses (ACCEPTANCE.md E2E-14 accepts Link for the Cal golden path).
   upstreamSync:
     schedule: '0 6 * * 1'
     mode: merge
