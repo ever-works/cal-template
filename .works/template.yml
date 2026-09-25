@@ -6,7 +6,7 @@
 # — the shape a *published* Cal.diy Blueprint takes, where the template repository is a public fork of
 # `calcom/cal.diy` and provisioning forks exactly one repository.
 #
-# THIS repository is not that fork: it is private and carries metadata only, so it declares the shape it
+# THIS repository is not that fork: it carries metadata only, so it declares the shape it
 # actually is. `code-bearing` here would fail the resolver's shape check (T4 requires `isFork` with the
 # recorded fork-network root), which is worse than a truthful `metadata-only`.
 #
