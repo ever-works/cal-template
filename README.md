@@ -1,6 +1,6 @@
 # App Blueprint draft — Cal.diy (community build)
 
-**Status:** `Draft` — seed content for the Blueprint repository `ever-works/cal-diy-template` (topic
+**Status:** `Draft` — seed content for the Blueprint repository `ever-works/cal-template` (topic
 `ever-works-app-blueprint`). **Owner:** [APW-13](../../spec.md). **Shape:** [CONTRACTS.md §1](../../../CONTRACTS.md).
 **Unverified** in the sense of [APW-13 spec §4.5](../../spec.md): nothing here has run on a cluster.
 
@@ -35,12 +35,13 @@ builds and runs a fork of `calcom/cal.diy` as an App Work.
 | Path | What it is |
 | --- | --- |
 | [`app-spec.yml`](./app-spec.yml) | the App spec itself — the file the platform applies |
+| [`.works/works.yml`](./.works/works.yml) | the same App spec, byte for byte, at the path the platform's Blueprint resolver reads (FR-43 / CONTRACTS §8); change it together with `app-spec.yml` |
 | [`.works/template.yml`](./.works/template.yml) | this repository's shape and app source, read by the catalog/resolver |
 
 It is **metadata-only**: the application's source is not in this repository, and the file layout below is
 the specification's, not the upstream project's. The listing in `ever-works/templates` records this
 Blueprint with the shape a *published* Cal.diy Blueprint takes (`code-bearing`, a public fork of the
-upstream); this repository is the private metadata-only seed, so it declares the shape it actually is.
+upstream); this repository is the metadata-only seed, so it declares the shape it actually is.
 
 **Not released, not verified.** Nothing here has run on a cluster, and `blueprint.sha` is a placeholder
 until the release workflow stamps it. Links in this document that point outside the repository were written
