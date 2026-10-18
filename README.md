@@ -220,3 +220,20 @@ draft, the Blueprint id changed from `cal-diy` to `cal`, the repository was rena
 `ever-works/cal-diy-template` to `ever-works/cal-template`, and the Blueprint's display name (and the
 `EMAIL_FROM_NAME` the app sends with) changed from "Cal.diy (community build)" to "Cal (community build)". The App
 spec is otherwise the one the draft describes.
+
+## Managed target (Ever Works Apps, `*.ever.app`): the image must run as a non-root user
+
+The managed target enforces Pod Security `restricted` (`runAsNonRoot`). Upstream Cal's `runner` stage runs as **root**, and its `scripts/start.sh` rewrites files under `/calcom` (`replace-placeholder.sh`, turbo, Next.js caches). So the fork needs the runner stage to own `/calcom` and run as a **numeric** user. A user name is refused as "image has non-numeric user". This is the patch the first live App applied (fork `ever-works/cal.diy` `3836b86`, 2026-10-18):
+
+```dockerfile
+FROM node:20 AS runner
+WORKDIR /calcom
+RUN apt-get update && apt-get install -y --no-install-recommends netcat-openbsd wget && rm -rf /var/lib/apt/lists/*
+RUN chown 1000:1000 /calcom
+COPY --from=builder-two --chown=1000:1000 /calcom ./   # --chown keeps it one layer (no chown -R copy)
+# ... ENV / EXPOSE / HEALTHCHECK unchanged ...
+USER 1000:1000
+CMD ["/calcom/scripts/start.sh"]
+```
+
+Without it, the first deploy's `migrate` Job is refused with `container has runAsNonRoot and image will run as root`. Since ever-works#2789 that fails fast as `managed_root_forbidden`. `your-cluster` targets with `allowRoot` do not need the patch.
